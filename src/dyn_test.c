@@ -253,6 +253,9 @@ init_peer(struct node *s)
     //s->tokens = cseed->tokens;
 
     struct sockinfo *info = malloc(sizeof(struct sockinfo));
+    if (!info){
+        return DN_ERROR;
+    }
 
     memset(info, 0, sizeof(*info));
     dn_resolve(&name, s->endpoint.port, info);
@@ -585,6 +588,10 @@ main(int argc, char **argv)
     init_test(argc, argv);
 
     struct node *peer = malloc(sizeof(struct datastore));
+    if (!peer){
+        loga("out of memory !!!");
+        goto err_out;
+    }
     init_peer(peer);
 
     struct conn *conn = conn_get_peer(peer, false);
